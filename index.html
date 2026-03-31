@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Color Lab</h1>
+      <p>Modern CSS colors: <code>light-dark()</code>, relative colors, <code>hwb()</code>, and more.</p>
+    </header>
+
+    <section class="panel">
+      <div class="controls">
+        <label>
+          Hue
+          <input id="h" type="range" min="0" max="360" value="285" />
+          <output id="hOut">285</output>
+        </label>
+
+        <label>
+          Chroma
+          <input id="c" type="range" min="0" max="0.35" step="0.01" value="0.16" />
+          <output id="cOut">0.16</output>
+        </label>
+
+        <label>
+          Lightness
+          <input id="l" type="range" min="0.2" max="0.9" step="0.01" value="0.64" />
+          <output id="lOut">0.64</output>
+        </label>
+
+        <label class="toggle">
+          <input id="autoInk" type="checkbox" checked />
+          Use <code>contrast-color()</code> when available
+        </label>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h2>Primary Card</h2>
+          <p>
+            Hover me. All the states are derived from one base color using relative color syntax.
+          </p>
+          <div class="row">
+            <button class="btn primary">Primary</button>
+            <button class="btn ghost">Ghost</button>
+          </div>
+        </article>
+
+        <article class="card accent">
+          <h2>HWB Accent</h2>
+          <p>
+            This surface uses <code>hwb()</code> for a soft, readable tint that still tracks the hue.
+          </p>
+          <div class="row">
+            <span class="pill">Pill</span>
+            <span class="pill alt">Alt</span>
+          </div>
+        </article>
+
+        <article class="card info">
+          <h2>Search Highlight</h2>
+          <p>
+            Try using your browser’s “Find on page” for the word <mark>color</mark>.
+            In Chrome Canary/experimental, <code>::search-text</code> can style the highlight.
+          </p>
+          <input class="field" placeholder="Type something… (try: color)" />
+        </article>
+      </div>
+    </section>
+
+    <footer class="foot">
+      Tip: toggle your OS/browser light/dark mode — this demo uses <code>light-dark()</code>.
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
