@@ -1,0 +1,236 @@
+/* Use UA theme colors correctly */
+:root {
+	color-scheme: light dark;
+}
+
+/* Base knobs (updated by JS) */
+:root {
+	--h: 285;
+	--c: 0.16;
+	--l: 0.64;
+
+	/* One base color drives everything */
+	--ink: oklch(calc(var(--l) * 100%) var(--c) var(--h));
+
+	/* Auto theme surfaces */
+	--bg: light-dark(oklch(98% 0.01 260), oklch(16% 0.02 260));
+	--panel: light-dark(oklch(99% 0.01 260), oklch(20% 0.03 260));
+	--text: light-dark(oklch(22% 0.02 260), oklch(94% 0.02 260));
+	--muted: light-dark(oklch(45% 0.02 260), oklch(75% 0.02 260));
+
+	/* Derived states via relative colors */
+	--ink-hover: oklch(from var(--ink) calc(l - 7%) c h);
+	--ink-active: oklch(from var(--ink) calc(l - 12%) c h);
+	--ring: oklch(from var(--ink) 85% 0.08 h);
+
+	/* HWB accent surface tracks hue but stays soft */
+	--accent-surface: hwb(var(--h) 88% 0% / 0.9);
+	--accent-border: hwb(var(--h) 55% 5% / 0.8);
+
+	/* Card surface uses a faint tint of ink */
+	--card: color-mix(
+		in oklch,
+		var(--panel) 90%,
+		oklch(from var(--ink) 70% 0.06 h) 10%
+	);
+}
+
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+	background: radial-gradient(
+			1200px 800px at 10% 10%,
+			oklch(from var(--ink) 88% 0.08 h),
+			transparent 55%
+		),
+		radial-gradient(
+			1200px 800px at 90% 20%,
+			oklch(from var(--ink) 80% 0.06 calc(h + 40)),
+			transparent 55%
+		),
+		var(--bg);
+	color: var(--text);
+}
+
+.wrap {
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 28px 18px 40px;
+}
+
+.top h1 {
+	margin: 0 0 6px;
+	letter-spacing: -0.02em;
+}
+.top p {
+	margin: 0;
+	color: var(--muted);
+}
+
+.panel {
+	margin-top: 18px;
+	padding: 18px;
+	border-radius: 22px;
+	background: color-mix(in oklch, var(--panel) 92%, black 8%);
+	border: 1px solid color-mix(in oklch, var(--panel) 75%, var(--ink) 25%);
+	box-shadow: 0 14px 50px color-mix(in oklch, black 22%, transparent);
+}
+
+.controls {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+	align-items: end;
+}
+
+label {
+	display: grid;
+	gap: 8px;
+	padding: 12px 12px 10px;
+	border-radius: 16px;
+	background: var(--card);
+	border: 1px solid color-mix(in oklch, var(--panel) 65%, var(--ink) 35%);
+}
+
+label output {
+	justify-self: end;
+	color: var(--muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.toggle {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.grid {
+	margin-top: 14px;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.card {
+	border-radius: 18px;
+	padding: 16px;
+	background: var(--card);
+	border: 1px solid color-mix(in oklch, var(--panel) 55%, var(--ink) 45%);
+	box-shadow: 0 10px 30px color-mix(in oklch, black 18%, transparent);
+}
+
+.card h2 {
+	margin: 0 0 8px;
+	font-size: 1.05rem;
+}
+.card p {
+	margin: 0 0 12px;
+	color: var(--muted);
+}
+
+.card.accent {
+	background: color-mix(in oklch, var(--card) 60%, var(--accent-surface) 40%);
+	border-color: var(--accent-border);
+}
+
+.row {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.btn {
+	border: 0;
+	border-radius: 999px;
+	padding: 10px 14px;
+	font-weight: 650;
+	cursor: pointer;
+	transition: transform 120ms ease, background 160ms ease, box-shadow 160ms ease;
+	outline: none;
+}
+
+.btn.primary {
+	background: var(--ink);
+	color: white;
+}
+:root[data-auto-ink="1"] .btn.primary {
+	color: contrast-color(var(--ink));
+}
+
+.btn.primary:hover {
+	background: var(--ink-hover);
+	transform: translateY(-1px);
+}
+.btn.primary:active {
+	background: var(--ink-active);
+	transform: translateY(0px) scale(0.99);
+}
+
+.btn.ghost {
+	background: color-mix(in oklch, transparent 70%, var(--ink) 30%);
+	color: var(--text);
+	border: 1px solid color-mix(in oklch, var(--panel) 40%, var(--ink) 60%);
+}
+.btn.ghost:hover {
+	box-shadow: 0 0 0 4px var(--ring);
+}
+
+.pill {
+	padding: 6px 10px;
+	border-radius: 999px;
+	background: hwb(var(--h) 78% 0% / 0.85);
+	border: 1px solid hwb(var(--h) 45% 8% / 0.8);
+}
+.pill.alt {
+	background: hwb(calc(var(--h) + 35) 80% 0% / 0.85);
+	border-color: hwb(calc(var(--h) + 35) 45% 8% / 0.8);
+}
+
+.field {
+	width: 100%;
+	border-radius: 14px;
+	padding: 10px 12px;
+	border: 1px solid color-mix(in oklch, var(--panel) 40%, var(--ink) 60%);
+	background: color-mix(in oklch, var(--panel) 70%, transparent);
+	color: var(--text);
+	outline: none;
+}
+.field:focus {
+	box-shadow: 0 0 0 4px var(--ring);
+}
+
+::search-text {
+	background: oklch(from var(--ink) 85% 0.18 h);
+	color: oklch(from var(--ink) 18% 0.03 h);
+}
+
+mark {
+	background: color-mix(in oklch, var(--ring) 55%, transparent);
+	color: inherit;
+	padding: 0 4px;
+	border-radius: 6px;
+}
+
+.foot {
+	margin-top: 14px;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+@media (max-width: 920px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+	.controls {
+		grid-template-columns: 1fr;
+	}
+}
